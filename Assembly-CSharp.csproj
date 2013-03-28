@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{97579F28-D1C0-8098-B2F2-EA2D64503CCA}</ProjectGuid>
+	<ProjectGuid>{03EF839D-466F-061D-E360-BCFF13FBCB8A}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -46,6 +46,9 @@
   <ItemGroup>
      <Compile Include="Assets\CameraControl.cs" />
      <Compile Include="Assets\DiscoFevah.cs" />
+     <Compile Include="Assets\EarlyFlightModel.cs" />
+     <Compile Include="Assets\Gui2ui.cs" />
+     <Compile Include="Assets\GuiTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
