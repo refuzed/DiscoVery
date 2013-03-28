@@ -3,11 +3,11 @@ using System.Collections;
 
 public class EarlyFlightModel : MonoBehaviour {
 	
-	public float deadzone;
-	public float lookSensitivity;
-	public float speed;
-	public float forceMod;
-	public float turnSpeed;
+	private float deadzone;
+	private float lookSensitivity;
+	private float speed;
+	private float forceMod;
+	private float turnSpeed;
 	
 	void Start () {
 		deadzone = 0.5f;
@@ -48,6 +48,10 @@ public class EarlyFlightModel : MonoBehaviour {
 			ApplyRotationalForce(transform.forward, -1);
 		if(Input.GetKey (KeyCode.A)) //ROTATE LEFT
 			ApplyRotationalForce(transform.forward, 1);
+		
+		// OHSHIT
+		if(Input.GetKey(KeyCode.Escape))
+			ResetPosition();
 	}
 	
 	void CheckGamepadInputs()
@@ -73,13 +77,16 @@ public class EarlyFlightModel : MonoBehaviour {
             ApplyRotationalForce(transform.up, Input.GetAxis("LeftHorizontal") * lookSensitivity / 3);
         if(Input.GetAxis("LeftHorizontal") < -deadzone) //YAW LEFT
             ApplyRotationalForce(transform.up, Input.GetAxis("LeftHorizontal") * lookSensitivity / 3);
-
 		
 		// ROTATION
 		if(Input.GetAxis("RightHorizontal") > deadzone) //ROTATE RIGHT
 			ApplyRotationalForce(transform.forward, -Input.GetAxis("RightHorizontal") * lookSensitivity);	
 		if(Input.GetAxis("RightHorizontal") < -deadzone) //ROTATE LEFT
 			ApplyRotationalForce(transform.forward, -Input.GetAxis("RightHorizontal") * lookSensitivity);
+		
+		// OHSHIT
+		if(Input.GetButton ("Fire1"))
+			ResetPosition();
 	}
 	
 	void ApplyLinearForce(Vector3 direction, float extraIntensity)
@@ -90,5 +97,11 @@ public class EarlyFlightModel : MonoBehaviour {
 	void ApplyRotationalForce(Vector3 direction, float extraIntensity)
 	{
 		rigidbody.AddTorque(direction * turnSpeed * extraIntensity);
+	}
+	
+	void ResetPosition()
+	{
+		rigidbody.MoveRotation(new Quaternion(0,0,0,0));
+		rigidbody.MovePosition(new Vector3(938, 4, 1420));
 	}
 }
