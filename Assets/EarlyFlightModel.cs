@@ -58,13 +58,13 @@ public class EarlyFlightModel : MonoBehaviour {
 	{
 		// THRUST
         if(Input.GetAxis("LeftVertical") > deadzone) // VTOL
-            ApplyLinearForce(transform.up, Input.GetAxis("LeftVertical") * 2.0f);
+            ApplyLinearForce(transform.up, Input.GetAxis("LeftVertical") * 3.0f);
         if(Input.GetAxis("LeftVertical") < -deadzone) // INVERSE VTOL
             ApplyLinearForce(transform.up, Input.GetAxis("LeftVertical"));
 		if(Input.GetButton("LB")) // FORWARD THRUST
-            ApplyLinearForce(transform.forward, -1);
+            ApplyLinearForce(transform.forward, -10.0f);
         if(Input.GetButton("RB")) // REVERSE THRUST
-            ApplyLinearForce(transform.forward, 1);
+            ApplyLinearForce(transform.forward, 3.0f);
 		
 		// PITCH
         if(Input.GetAxis("RightVertical") > deadzone) // PITCH DOWN
@@ -102,6 +102,6 @@ public class EarlyFlightModel : MonoBehaviour {
 	void ResetPosition()
 	{
 		rigidbody.MoveRotation(new Quaternion(0,0,0,0));
-		rigidbody.MovePosition(new Vector3(938, 4, 1420));
+		rigidbody.MovePosition(new Vector3(938, 200, 1420));
 	}
 }
