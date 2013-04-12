@@ -8,12 +8,14 @@ public class EarlyFlightModel : MonoBehaviour {
 	private float speed;
 	private float forceMod;
 	private float turnSpeed;
+	private bool cameraSwap;
 	
 	void Start () {
 		deadzone = 0.5f;
 		lookSensitivity = 5.0f;
 		forceMod = 15.0f;
 		turnSpeed = 0.3f;
+		cameraSwap = false;
 	}
 	
 	void FixedUpdate () {
@@ -24,30 +26,32 @@ public class EarlyFlightModel : MonoBehaviour {
 	void CheckKeyboardInputs()
 	{
 		// THRUST
-        if(Input.GetKey(KeyCode.Space)) // VTOL
-            ApplyLinearForce(transform.up, 1);
-		if(Input.GetKey(KeyCode.UpArrow)) // FORWARD
-            ApplyLinearForce(transform.forward, 1);
-		if(Input.GetKey(KeyCode.DownArrow)) // REVERSE
-            ApplyLinearForce(-transform.forward, 1);
+        if(Input.GetKey(KeyCode.W)) // VTOL
+            ApplyLinearForce(transform.up, 2);
+        if(Input.GetKey(KeyCode.S)) // INVERSE VTOL
+            ApplyLinearForce(transform.up, -2);
+		if(Input.GetKey(KeyCode.E)) // FORWARD
+            ApplyLinearForce(transform.forward, 2);
+		if(Input.GetKey(KeyCode.Q)) // REVERSE
+            ApplyLinearForce(-transform.forward, 2);
 		
 		// PITCH
-        if(Input.GetKey(KeyCode.W)) // PITCH DOWN
-            ApplyRotationalForce(transform.right, 1);
-        if(Input.GetKey(KeyCode.S)) // PITCH UP
-            ApplyRotationalForce(-transform.right, 1);
+        if(Input.GetKey(KeyCode.UpArrow)) // PITCH DOWN
+            ApplyRotationalForce(transform.right, lookSensitivity * .75f);
+        if(Input.GetKey(KeyCode.DownArrow)) // PITCH UP
+            ApplyRotationalForce(-transform.right, lookSensitivity * .75f);
 		
 		// YAW
-        if(Input.GetKey(KeyCode.RightArrow)) //YAW RIGHT
-            ApplyRotationalForce(transform.up, 1);
-        if(Input.GetKey(KeyCode.LeftArrow))  //YAW LEFT
-            ApplyRotationalForce(transform.up, -1);
+        if(Input.GetKey(KeyCode.D)) //YAW RIGHT
+            ApplyRotationalForce(transform.up, lookSensitivity * .75f);
+        if(Input.GetKey(KeyCode.A))  //YAW LEFT
+            ApplyRotationalForce(transform.up, -lookSensitivity * .75f);
 		
 		// ROTATION
-		if(Input.GetKey (KeyCode.D)) //ROTATE RIGHT
-			ApplyRotationalForce(transform.forward, -1);
-		if(Input.GetKey (KeyCode.A)) //ROTATE LEFT
-			ApplyRotationalForce(transform.forward, 1);
+		if(Input.GetKey (KeyCode.RightArrow)) //ROTATE RIGHT
+			ApplyRotationalForce(transform.forward, -lookSensitivity * .75f);
+		if(Input.GetKey (KeyCode.LeftArrow)) //ROTATE LEFT
+			ApplyRotationalForce(transform.forward, lookSensitivity * .75f);
 		
 		// OHSHIT
 		if(Input.GetKey(KeyCode.Escape))
@@ -61,10 +65,10 @@ public class EarlyFlightModel : MonoBehaviour {
             ApplyLinearForce(transform.up, Input.GetAxis("LeftVertical") * 3.0f);
         if(Input.GetAxis("LeftVertical") < -deadzone) // INVERSE VTOL
             ApplyLinearForce(transform.up, Input.GetAxis("LeftVertical"));
-		if(Input.GetButton("LB")) // FORWARD THRUST
-            ApplyLinearForce(transform.forward, -10.0f);
-        if(Input.GetButton("RB")) // REVERSE THRUST
+		if(Input.GetButton("RB")) // FORWARD THRUST
             ApplyLinearForce(transform.forward, 3.0f);
+        if(Input.GetButton("LB")) // REVERSE THRUST
+            ApplyLinearForce(transform.forward, -3.0f);
 		
 		// PITCH
         if(Input.GetAxis("RightVertical") > deadzone) // PITCH DOWN
@@ -83,10 +87,6 @@ public class EarlyFlightModel : MonoBehaviour {
 			ApplyRotationalForce(transform.forward, -Input.GetAxis("RightHorizontal") * lookSensitivity);	
 		if(Input.GetAxis("RightHorizontal") < -deadzone) //ROTATE LEFT
 			ApplyRotationalForce(transform.forward, -Input.GetAxis("RightHorizontal") * lookSensitivity);
-		
-		// OHSHIT
-		if(Input.GetButton ("Fire1"))
-			ResetPosition();
 	}
 	
 	void ApplyLinearForce(Vector3 direction, float extraIntensity)
@@ -102,6 +102,6 @@ public class EarlyFlightModel : MonoBehaviour {
 	void ResetPosition()
 	{
 		rigidbody.MoveRotation(new Quaternion(0,0,0,0));
-		rigidbody.MovePosition(new Vector3(938, 200, 1420));
+		rigidbody.MovePosition(new Vector3(938, 600, 1420));
 	}
 }
